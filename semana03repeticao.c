@@ -277,3 +277,61 @@ int main(void) {
    else puts("Nao e primo!");
    return 0;
 }
+
+
+#include <stdio.h>
+
+int main(void) {
+   for(int i=9; i>=1; i--)
+      printf("%d\n",i);
+   return 0;
+}
+
+
+#include <stdio.h>
+#include <conio.h>
+
+int main(void) {
+   int c;
+   for(c=0; c<=15; c++){
+		_textbackground(c);
+		_textcolor(7);
+		printf("Cor %d\n",c);
+	}
+   return 0;
+}
+
+
+#include <stdio.h>
+#include <conio.h>
+
+int main(void) {
+	int n;
+	printf("n: ");
+	scanf("%d", &n);
+	for (int i=0; i<n; i++)
+		printf("%d\n", i);
+   return 0;
+}
+
+
+
+#include <stdio.h>
+#include <conio.h>
+
+int main(void) {
+	int n, s = 0;
+	printf("n: ");
+	scanf("%d", &n);
+	for (int i=0; i<n; i++)
+		s += 2*i+1;
+	printf("o quadrado eh: %d\n", s);
+   return 0;
+}
+
+
+
+
+
+
+
