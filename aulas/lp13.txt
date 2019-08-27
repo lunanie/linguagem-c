@@ -1,0 +1,208 @@
+// ILP-010 (Prof. Dr. Silvio do Lago Pereira)
+
+//------------------------------------------------------------
+// Exemplo 1
+//------------------------------------------------------------
+
+// teste.c
+#include <stdio.h>
+int main(void) {
+   fprintf(stdout,"Um, dois, tres, ");
+   fprintf(stderr,"testando...\n");
+   return 0;
+}
+
+//------------------------------------------------------------
+// Exemplo 3
+//------------------------------------------------------------
+
+// cat.c
+#include <stdio.h>
+int main(void) {
+   int c;
+   while( (c=getchar())!=EOF ) putchar(c);
+   return 0;
+}
+
+//------------------------------------------------------------
+// Exercicio 2
+//------------------------------------------------------------
+
+/* notas.txt
+
+5.5 6.5
+7.0 9.0
+3.0 7.0
+5.0 8.5
+7.0 2.0
+
+*/
+
+include <stdio.h>
+
+int main(void) {
+   float p1, p2;
+   while( scanf("%f %f",&p1,&p2) != EOF ) {
+      float m = (p1+p2)/2;
+      printf("%.1f %s\n",m,m>=6 ? "Aprovado" : "Reprovado");
+   }
+   return 0;
+}
+
+//------------------------------------------------------------
+// Exemplo 8
+//------------------------------------------------------------
+
+/* g.txt
+
+abcde
+
+*/
+
+/* c.txt
+
+125 acbde
+493 cdeaa
+384 deabc
+981 cadce
+394 bbced
+
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int pontos(char *r,char *g) {
+   int p = 0;
+   for(int i=0; r[i] && g[i]; i++)
+      if( r[i]==g[i] ) p++;
+   return p;
+}
+
+FILE *abre(char *n,char *m,char *e) {
+   FILE *p = fopen(n,m);
+   if( p==NULL ) { puts(e); exit(1); }
+   return p;
+}
+
+int main(void) {
+   FILE *a = abre("c.txt","rt","c.txt nao foi aberto!");
+   FILE *b = abre("g.txt","rt","g.txt nao foi aberto!");
+   FILE *c = abre("r.txt","wt","r.txt nao foi aberto!");
+   char g[6], r[6];
+   int  n;
+   fgets(g,6,b);
+   while( 1 ) {
+     fscanf(a,"%d %s",&n,r);
+     if( feof(a) ) break;
+     fprintf(c,"%d %d\n",n,pontos(r,g));
+   }
+   fclose(a);
+   fclose(b);
+   fclose(c);
+   return 0;
+}
+
+
+//------------------------------------------------------------
+// Exemplo 9
+//------------------------------------------------------------
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+void erro(char *mensagem) { 
+   puts(mensagem); 
+   exit(1); 
+}
+
+int existe(char *nome) {
+   FILE *a = fopen(nome,"rb");
+   fclose(a);
+   return (a != NULL);
+}
+
+FILE *abre(char *nome,char *modo,char *mensagem) {
+   FILE *f = fopen(nome,modo);
+   if( f==NULL ) erro(mensagem);
+   return f;
+}
+
+int main(int argc,char *argv[]) {
+   if( argc!=3 ) erro("Sintaxe: copia origem destino");
+   if( strcmp(argv[1],argv[2])==0 ) erro("Origem igual ao destino!");
+   FILE *o = abre(argv[1],"rb","Origem nao pode ser aberto!");
+   if( existe(argv[2]) ) {
+      printf("Sobrescreve destino? [s/n] ");
+      if( toupper(getchar())!='S' ) return 0;
+   }
+   FILE *d = abre(argv[2],"wb","Destino nao pode ser aberto!");
+   while( 1 ) {
+      char c = fgetc(o);
+      if( feof(o) ) break;
+      fputc(c,d);
+   }
+   fclose(o); fclose(d);
+   puts("Arquivo copiado!");
+   return 0;
+}
+
+//------------------------------------------------------------
+// Exemplo 10
+//------------------------------------------------------------
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+void erro(char *m) { puts(m); exit(1); }
+
+int main(int argc,char *argv[]) {
+   if( argc!=2 ) erro("Sintaxe: maiusculas arquivo");
+   FILE *a = fopen(argv[1],"rb+");
+   if( a==NULL ) erro("Arquivo nao pode ser aberto!");
+   while( 1 ) {
+      fseek(a,0,SEEK_CUR);
+      char c = fgetc(a);
+      if( feof(a) ) break;
+      fseek(a,-1,SEEK_CUR);
+      fputc(toupper(c),a);
+   }
+   fclose(a);
+   return 0;
+}
+
+//------------------------------------------------------------
+// Exemplo 11
+//------------------------------------------------------------
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+   char nome[31];
+   float salario; 
+} Func;
+
+int main(void) {
+   FILE *s = fopen("func.dat","wb");
+   if( s==NULL ) { 
+      puts("Arquivo func.dat não pode ser aberto!");
+      exit(1); 
+   }
+   puts("Pressione enter para finalizar!");
+   while( 1 ) {
+      Func f;
+      printf("Nome? ");
+      gets(f.nome);
+      if( strcmp(f.nome,"")==0 ) break; 
+      printf("Salario? "); 
+      scanf("%f%*c",&f.salario);
+      fwrite(&f,sizeof(Func),1,s);
+   }
+   fclose(s);
+   return 0;
+}
