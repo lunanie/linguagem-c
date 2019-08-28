@@ -203,6 +203,148 @@ int main(void) {
 
 
 
+//anotações de aula
+#include <stdio.h>
+
+#define programa int main(void)
+#define inicio {
+#define diga puts
+#define fim return 0; }
+
+programa
+inicio
+   diga("Oi!");
+fim
+
+//portugues.h 
+#define programa int main(void)
+#define inicio {
+#define diga puts
+#define fim return 0; }
+
+
+//programa.c
+#include <stdio.h>
+
+#include "portugues.h"
+
+programa
+inicio
+   diga("Oi!");
+fim
+
+//maior inteiro em linguagem c 0x7FFFFFFF
+
+
+#include <stdio.h>
+#define MAX_INT 0x7FFFFFFF
+#define MIN_INT MAX_INT+1
+
+
+int main(void) {
+   printf("Inteiro minimo = %+d\n",MIN_INT);
+   printf("Inteiro maximo = %+d\n",MAX_INT);
+   return 0;
+}
+
+
+
+
+//OVERFLOW... QUANDO É O MAXIMO MAIS UM
+
+
+
+#include <stdio.h>
+#define MAX_INT 0x7FFFFFFF
+#define MIN_INT 0x80000000
+
+
+int main(void) {
+   printf("Inteiro minimo = %+d\n",MIN_INT);
+   printf("Inteiro maximo = %+d\n",MAX_INT);
+   return 0;
+}
+
+
+
+//#define substitui variavel no arquivo todo, é global
+
+//colocar todos os parenteses possiveis na definicao da macro
+
+
+
+
+#include <stdio.h>
+#define maiuscula(c)((c)>= 'A' && (c)<= 'Z')
+
+
+int main(void) {
+   char x;
+   printf("Caractere? ");
+   scanf("%c",&x);
+   printf("Maiuscula: %s\n",maiuscula(x) ? "sim" : "nao");
+   return 0;
+}
+
+
+
+#include <stdio.h>
+#include <ctype.h>
+
+
+
+
+int main(void) {
+   char x;
+   printf("Caractere? ");
+   scanf("%c",&x);
+   printf("Maiuscula: %s\n",isupper(x) ? "sim" : "nao");
+   return 0;
+}
+//unsigned - nao sinalizado se positivo ou negativo
+// quando coloco return já sai da função e nao precisa escrever o else
+
+
+
+
+
+#include <stdio.h>
+#include <math.h>
+
+double raiz(double x) {
+	double r = x/2;
+	while( fabs(r*r-x) >= 0.0001)
+		r= (r*r+x)/(2*r);
+	return r;
+
+}
+
+
+int main(void) {
+	printf("Raiz = %.3f\n", raiz(9));
+	return 0;
+}
+
+
+
+
+#include <stdio.h>
+#include <math.h>
+
+double raiz(double x) {
+	double r = x/2;
+	while( fabs(r*r-x) >= 0.001){
+		printf("%f\n", r);
+		r= (r*r+x)/(2*r);
+	}
+	return r;
+}
+
+int main(void) {
+	printf("Raiz = %.3f\n", raiz(81));
+	return 0;
+}
+
 
 
 
